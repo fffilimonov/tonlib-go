@@ -72,7 +72,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	// create query to send grams
 	msgAction := tonlib.NewActionMsg(
 		true,
-		[]tonlib.MsgMessage{tonlib.NewMsgMessage(
+		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
 			tonlib.JSONInt64(amount),
 			nil,
 			tonlib.NewAccountAddress(destinationAddr),
