@@ -1,7 +1,7 @@
 package main
 
 import (
-	tonlib "github.com/mercuryoio/tonlib-go/v2"
+	tonlib "github.com/fffilimonov/tonlib-go/v2"
 	"log"
 )
 
