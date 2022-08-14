@@ -14,3 +14,4 @@
 
 # auto generated files
 test.keys/*
+cmd/tlgenerator/tlgenerator

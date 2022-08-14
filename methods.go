@@ -703,7 +703,7 @@ func (client *Client) RawGetTransactions(accountAddress AccountAddress, fromTran
 
 // RawSendMessage
 // @param body
-func (client *Client) RawSendMessage(body []byte) (*Ok, error) {
+func (client *Client) RawSendMessage(body []byte) (*RawExtMessageInfo, error) {
 	result, err := client.executeAsynchronously(
 		struct {
 			Type string `json:"@type"`
@@ -722,9 +722,9 @@ func (client *Client) RawSendMessage(body []byte) (*Ok, error) {
 		return nil, fmt.Errorf("error! code: %d msg: %s", result.Data["code"], result.Data["message"])
 	}
 
-	var Ok Ok
-	err = json.Unmarshal(result.Raw, &Ok)
-	return &Ok, err
+	var rawExtMessageInfo RawExtMessageInfo
+	err = json.Unmarshal(result.Raw, &rawExtMessageInfo)
+	return &rawExtMessageInfo, err
 
 }
 
@@ -1243,12 +1243,12 @@ func (client *Client) SmcRunGetMethod(id int64, method SmcMethodId, stack []TvmS
 // @param category
 // @param name
 // @param ttl
-func (client *Client) DnsResolve(accountAddress AccountAddress, category int32, name string, ttl int32) (*DnsResolved, error) {
+func (client *Client) DnsResolve(accountAddress AccountAddress, category Int256, name string, ttl int32) (*DnsResolved, error) {
 	result, err := client.executeAsynchronously(
 		struct {
 			Type           string         `json:"@type"`
 			AccountAddress AccountAddress `json:"account_address"`
-			Category       int32          `json:"category"`
+			Category       Int256         `json:"category"`
 			Name           string         `json:"name"`
 			Ttl            int32          `json:"ttl"`
 		}{
