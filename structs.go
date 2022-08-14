@@ -1907,7 +1907,7 @@ func (msgMessage *MsgMessage) MessageType() string {
 // @param destination
 // @param publicKey
 // @param sendMode
-func NewMsgMessage(amount JSONInt64, data *MsgData, destination *AccountAddress, publicKey string, sendMode int32) *MsgMessage {
+func NewMsgMessage(amount JSONInt64, data *MsgDataText, destination *AccountAddress, publicKey string, sendMode int32) *MsgMessage {
 	msgMessageTemp := MsgMessage{
 		tonCommon:   tonCommon{Type: "msg.message"},
 		Amount:      amount,
