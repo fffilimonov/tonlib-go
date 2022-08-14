@@ -429,7 +429,7 @@ type InitialAccountState interface{ MessageType() string }
 //
 // @param publicKey
 func NewInitialAccountState(publicKey string) *InitialAccountState {
-	initialAccountStateTemp := WalletInitialAccountState{
+	initialAccountStateTemp := InitialAccountState{
 		tonCommon: tonCommon{Type: "wallet.initialAccountState"},
 		PublicKey: publicKey,
 	}
