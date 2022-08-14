@@ -425,16 +425,22 @@ func NewKey(publicKey string, secret string) *Key {
 // InitialAccountState
 type InitialAccountState interface{ MessageType() string }
 
-// NewInitialAccountState creates a new InitialAccountState
+// NewTestWalletInitialAccountState creates a new TestWalletInitialAccountState
 //
 // @param publicKey
-func NewInitialAccountState(publicKey string) *InitialAccountState {
-	initialAccountStateTemp := InitialAccountState{
-		tonCommon: tonCommon{Type: "wallet.initialAccountState"},
+func NewTestWalletInitialAccountState(publicKey string) *TestWalletInitialAccountState {
+	testWalletInitialAccountStateTemp := TestWalletInitialAccountState{
+		tonCommon: tonCommon{Type: "testWallet.initialAccountState"},
 		PublicKey: publicKey,
 	}
 
-	return &initialAccountStateTemp
+	return &testWalletInitialAccountStateTemp
+}
+
+// WalletInitialAccountState
+type WalletInitialAccountState struct {
+	tonCommon
+	PublicKey string `json:"public_key"` //
 }
 
 type AccountState RawAccountState
