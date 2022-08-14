@@ -21,7 +21,6 @@ var sendGrammCmd = &cobra.Command{
 - password
 - addressDestination
 - amount
-- message for destination. not required
 `,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 6 {
@@ -46,11 +45,6 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	amount, err := strconv.ParseInt(args[5], 10, 64)
 	if err != nil {
 		log.Fatalf("failed to parse amount argument: %s as int. err: %s. ", args[5], err)
-	}
-
-	message := ""
-	if len(args) > 6 {
-		message = args[6]
 	}
 
 	err = initClient(confPath)
@@ -78,9 +72,9 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	// create query to send grams
 	msgAction := tonlib.NewActionMsg(
 		true,
-		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
+		[]tonlib.MsgMessage{tonlib.NewMsgMessage(
 			tonlib.JSONInt64(amount),
-			tonlib.NewMsgDataText(message),
+			nil,
 			tonlib.NewAccountAddress(destinationAddr),
 			"",
 			-1,
