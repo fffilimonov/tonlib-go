@@ -425,6 +425,12 @@ func NewKey(publicKey string, secret string) *Key {
 // InitialAccountState
 type InitialAccountState interface{ MessageType() string }
 
+// WalletInitialAccountState
+type WalletInitialAccountState struct {
+	tonCommon
+	PublicKey string `json:"public_key"` //
+}
+
 // MessageType return the string telegram-type of WalletInitialAccountState
 func (walletInitialAccountState *WalletInitialAccountState) MessageType() string {
 	return "wallet.initialAccountState"
