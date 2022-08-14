@@ -448,6 +448,26 @@ func NewWalletInitialAccountState(publicKey string) *WalletInitialAccountState {
 	return &walletInitialAccountStateTemp
 }
 
+// NewTextMsgMessage creates a new MsgMessage
+//
+// @param amount
+// @param data
+// @param destination
+// @param publicKey
+// @param sendMode
+func NewTextMsgMessage(amount JSONInt64, destination *AccountAddress, publicKey string, sendMode int32) *MsgMessage {
+	msgMessageTemp := MsgMessage{
+		tonCommon:   tonCommon{Type: "msg.message"},
+		Amount:      amount,
+		Data:        tonlib.NewMsgDataText(""),
+		Destination: destination,
+		PublicKey:   publicKey,
+		SendMode:    sendMode,
+	}
+
+	return &msgMessageTemp
+}
+
 type AccountState RawAccountState
 
 type MsgData interface{}
