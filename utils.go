@@ -3,6 +3,7 @@ package tonlib
 import (
 	"encoding/json"
 	"io/ioutil"
+	"math/big"
 	"os"
 )
 
@@ -76,4 +77,18 @@ func ParseConfigFile(path string) (*Options, error) {
 		),
 		&conf.Keystore,
 	), nil
+}
+
+func hex2int(hexStr string) *big.Int {
+	i := new(big.Int)
+	i.SetString(hexStr, 16)
+	return i
+}
+
+func fileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if err != nil {
+		return false
+	}
+	return !info.IsDir()
 }

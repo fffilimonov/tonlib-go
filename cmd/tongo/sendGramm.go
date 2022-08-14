@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/fffilimonov/tonlib-go"
+	tonlib "github.com/fffilimonov/tonlib-go"
 	"github.com/spf13/cobra"
 	"log"
 	"os"
@@ -42,7 +42,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	secret := args[2]
 	password := args[3]
 	destinationAddr := args[4]
-	// parse amount
+	//// parse amount
 	amount, err := strconv.ParseInt(args[5], 10, 64)
 	if err != nil {
 		log.Fatalf("failed to parse amount argument: %s as int. err: %s. ", args[5], err)
@@ -52,6 +52,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	if len(args) > 6 {
 		message = args[6]
 	}
+
 	err = initClient(confPath)
 	if err != nil {
 		fmt.Println("init connection error: ", err)
@@ -61,32 +62,43 @@ func sendGramm(cmd *cobra.Command, args []string) {
 
 	// prepare input key
 	inputKey := tonlib.InputKey{
-		Type: "inputKeyRegular",
+		Type:          "inputKeyRegular",
 		LocalPassword: base64.StdEncoding.EncodeToString(tonlib.SecureBytes(password)),
-		Key: pKey,
-	}
-	_, err = tonClient.WalletInit(&inputKey)
-	if err != nil {
-		fmt.Println("init wallet error: ", err)
-		os.Exit(0)
+		Key:           pKey,
 	}
 
 	// get wallet adress info
-	addr, err := tonClient.WalletGetAccountAddress(tonlib.NewWalletInitialAccountState(pKey.PublicKey))
+	sourceAccState := tonlib.NewWalletInitialAccountState(pKey.PublicKey)
+	senderAddr, err := tonClient.GetAccountAddress(sourceAccState, 0, 0)
 	if err != nil {
-		fmt.Println("get wallet address error: ", err)
+		fmt.Println("get wallet address error: ", err, senderAddr)
 		os.Exit(0)
 	}
 
-	// send grams
-	sendResult, err := tonClient.GenericSendGrams(
+	// create query to send grams
+	msgAction := tonlib.NewActionMsg(
 		true,
-		tonlib.JSONInt64(amount),
-		tonlib.NewAccountAddress(destinationAddr),
-		[]byte(message),
-		&inputKey,
-		addr,
-		5,
+		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
+			tonlib.JSONInt64(amount),
+			tonlib.NewMsgDataText(message),
+			tonlib.NewAccountAddress(destinationAddr),
+			"",
+		)},
 	)
-	fmt.Printf("Got a result: hash %v. Errors: %v \n", sendResult, err)
+	queryInfo, err := tonClient.CreateQuery(
+		msgAction,
+		*senderAddr,
+		sourceAccState,
+		inputKey,
+		300, // time out of sending money not executing request
+	)
+	fmt.Println(fmt.Sprintf("queryInfo: %#v. err: %#v. ", queryInfo, err))
+	if err != nil {
+		fmt.Printf("Failed to create query with  error: %v \n", err)
+		os.Exit(1)
+	}
+
+	// send query
+	ok, err := tonClient.QuerySend(queryInfo.Id)
+	fmt.Println(fmt.Sprintf("send query. ok: %#v. err: %#v. ", ok, err))
 }
