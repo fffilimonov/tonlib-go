@@ -283,12 +283,6 @@ pchan.validatePromise public_key:bytes promise:pchan.promise = Ok;
 pchan.packPromise promise:pchan.promise = Data;
 pchan.unpackPromise data:secureBytes = pchan.Promise;
 
-
-blocks.getMasterchainInfo = blocks.MasterchainInfo;
-blocks.getShards id:ton.blockIdExt = blocks.Shards;
-blocks.lookupBlock mode:int32 id:ton.blockId lt:int64 utime:int32 = ton.BlockIdExt;
-blocks.getBlockHeader id:ton.blockIdExt = blocks.Header;
-
 onLiteServerQueryResult id:int64 bytes:bytes = Ok;
 onLiteServerQueryError id:int64 error:error = Ok;
 
