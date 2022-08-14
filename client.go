@@ -433,7 +433,7 @@ type WalletInitialAccountState struct {
 
 // MessageType return the string telegram-type of WalletInitialAccountState
 func (walletInitialAccountState *WalletInitialAccountState) MessageType() string {
-	return "wallet.initialAccountState"
+	return "wallet.v3.initialAccountState"
 }
 
 // NewWalletInitialAccountState creates a new WalletInitialAccountState
@@ -441,7 +441,7 @@ func (walletInitialAccountState *WalletInitialAccountState) MessageType() string
 // @param publicKey
 func NewWalletInitialAccountState(publicKey string) *WalletInitialAccountState {
 	walletInitialAccountStateTemp := WalletInitialAccountState{
-		tonCommon: tonCommon{Type: "wallet.initialAccountState"},
+		tonCommon: tonCommon{Type: "wallet.v3.initialAccountState"},
 		PublicKey: publicKey,
 	}
 
