@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	tonlib "github.com/fffilimonov/tonlib-go/v2"
+	tonlib "github.com/fffilimonov/tonlib-go"
 	"github.com/spf13/cobra"
 	"log"
 	"os"
