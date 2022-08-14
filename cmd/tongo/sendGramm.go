@@ -69,6 +69,14 @@ func sendGramm(cmd *cobra.Command, args []string) {
 		os.Exit(0)
 	}
 
+	state, err := tonClient.GetAccountState(*addr)
+	if err != nil {
+		fmt.Println("unpack wallet address error: ", err)
+		os.Exit(0)
+	}
+
+	fmt.Printf("Got a result: address: %v; balance :%v; last transaction id: %v. Errors: %v. \n", addr.AccountAddress, state.Balance, state.LastTransactionId, err)
+
 	// create query to send grams
 	msgAction := tonlib.NewActionMsg(
 		true,
