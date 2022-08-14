@@ -459,7 +459,7 @@ func NewTextMsgMessage(amount JSONInt64, destination *AccountAddress, publicKey 
 	msgMessageTemp := MsgMessage{
 		tonCommon:   tonCommon{Type: "msg.message"},
 		Amount:      amount,
-		Data:        tonlib.NewMsgDataText(""),
+		Data:        NewMsgDataText(""),
 		Destination: destination,
 		PublicKey:   publicKey,
 		SendMode:    sendMode,
