@@ -83,7 +83,10 @@ func sendGramm(cmd *cobra.Command, args []string) {
 		[]tonlib.MsgMessage{*tonlib.NewTextMsgMessage(
 			tonlib.JSONInt64(amount),
 			tonlib.NewAccountAddress(destinationAddr),
-			&tonlib.MsgData{},
+			&tonlib.MsgData{
+				tonCommon: tonCommon{Type: "msg.dataText"},
+				Text:      "",
+			},
 			-1,
 		)},
 	)
