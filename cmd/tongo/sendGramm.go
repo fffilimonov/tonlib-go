@@ -83,6 +83,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 			tonlib.NewMsgDataText(message),
 			tonlib.NewAccountAddress(destinationAddr),
 			"",
+			-1,
 		)},
 	)
 	queryInfo, err := tonClient.CreateQuery(
