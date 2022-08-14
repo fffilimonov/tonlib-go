@@ -1889,7 +1889,7 @@ func NewMsgDataDecryptedArray(elements []MsgDataDecrypted) *MsgDataDecryptedArra
 type MsgMessage struct {
 	tonCommon
 	Amount      JSONInt64       `json:"amount"`      //
-	Data        *MsgData        `json:"data"`        //
+	Data        *MsgDataText        `json:"data"`        //
 	Destination *AccountAddress `json:"destination"` //
 	PublicKey   string          `json:"public_key"`  //
 	SendMode    int32           `json:"send_mode"`   //
