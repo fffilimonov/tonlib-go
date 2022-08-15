@@ -102,7 +102,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	fees, err := tonClient.QueryEstimateFees(queryInfoFee.Id, false)
 	fmt.Println(fmt.Sprintf("fees: %#v. err: %#v. ", fees, err))
 
-    totalFee := fees.SourceFees.FwdFee + fees.SourceFees.GasFee + fees.SourceFees.InFwdFee + fees.SourceFees.StorageFee + fees.DestinationFees[0].FwdFee + fees.DestinationFees[0].GasFee + fees.DestinationFees[0].InFwdFee + fees.DestinationFees[0].StorageFee
+    totalFee := fees.SourceFees.FwdFee + fees.SourceFees.GasFee + fees.SourceFees.InFwdFee + fees.SourceFees.StorageFee
 	fmt.Println(fmt.Sprintf("totalFee: %v", totalFee))
 
     totalAmount := balance - totalFee
