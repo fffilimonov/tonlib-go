@@ -6,9 +6,7 @@ import (
 	"fmt"
 	tonlib "github.com/fffilimonov/tonlib-go"
 	"github.com/spf13/cobra"
-	"log"
 	"os"
-	"strconv"
 )
 
 var sendGrammCmd = &cobra.Command{
@@ -41,7 +39,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	password := args[3]
 	destinationAddr := args[4]
 
-	err = initClient(confPath)
+	err := initClient(confPath)
 	if err != nil {
 		fmt.Println("init connection error: ", err)
 		os.Exit(0)
@@ -71,11 +69,13 @@ func sendGramm(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("Got a result: address: %v; balance :%v; last transaction id: %v. Errors: %v. \n", senderAddr.AccountAddress, state.Balance, state.LastTransactionId, err)
 
+    balance := Int64(state.Balance)
+
 	// create query to send grams
 	msgActionFee := tonlib.NewActionMsg(
 		true,
 		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
-			tonlib.JSONInt64(state.Balance),
+			tonlib.JSONInt64(balance),
 			tonlib.NewMsgDataText(""),
 			tonlib.NewAccountAddress(destinationAddr),
 			pKey.PublicKey,
@@ -104,7 +104,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
     totalFee := fees.SourceFees.FwdFee + fees.SourceFees.GasFee + fees.SourceFees.InFwdFee + fees.SourceFees.StorageFee + fees.DestinationFees[0].FwdFee + fees.DestinationFees[0].GasFee + fees.DestinationFees[0].InFwdFee + fees.DestinationFees[0].StorageFee
 	fmt.Println(fmt.Sprintf("totalFee: %v", totalFee))
 
-    totalAmount := state.Balance - totalFee
+    totalAmount := balance - totalFee
 
     if totalAmount < 1 {
 		fmt.Printf("Low balance: %v\n", totalAmount)
