@@ -20,8 +20,8 @@ var sendGrammCmd = &cobra.Command{
 - addressDestination
 `,
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 6 {
-			return fmt.Errorf("you have to use minimum six args for this commaond \n")
+		if len(args) < 5 {
+			return fmt.Errorf("you have to use minimum five args for this commaond \n")
 		}
 		_, err := os.Stat(args[0])
 		if err != nil {
