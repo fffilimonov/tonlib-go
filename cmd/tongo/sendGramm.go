@@ -77,17 +77,28 @@ func sendGramm(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("Got a result: address: %v; balance :%v; last transaction id: %v. Errors: %v. \n", senderAddr.AccountAddress, state.Balance, state.LastTransactionId, err)
 
-	// get query info
-	queryInfoFee, err := tonClient.GenericCreateSendGramsQuery(
+
+	// create query to send grams
+	msgActionFee := tonlib.NewActionMsg(
 		true,
-		tonlib.JSONInt64(amount),
-		tonlib.NewAccountAddress(destinationAddr),
-		[]byte(""),
-		&inputKey,
-		senderAddr,
+		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
+			tonlib.JSONInt64(amount),
+			tonlib.NewMsgDataText(""),
+			tonlib.NewAccountAddress(destinationAddr),
+			pKey.PublicKey,
+			-1,
+		)},
+	)
+
+	queryInfoFee, err := tonClient.CreateQuery(
+		msgActionFee,
+		*senderAddr,
+		sourceAccState,
+		inputKey,
 		300, // time out of sending money not executing request
 	)
-	fmt.Println(fmt.Sprintf("queryInfo: %#v. err: %#v. ", queryInfoFee, err))
+
+	fmt.Println(fmt.Sprintf("queryInfoFee: %#v. err: %#v. ", queryInfoFee, err))
 	if err != nil{
 		fmt.Printf("Failed to create query with  error: %v \n", err)
 		os.Exit(1)
@@ -108,6 +119,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 			-1,
 		)},
 	)
+
 	queryInfo, err := tonClient.CreateQuery(
 		msgAction,
 		*senderAddr,
@@ -115,6 +127,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 		inputKey,
 		300, // time out of sending money not executing request
 	)
+
 	fmt.Println(fmt.Sprintf("queryInfo: %#v. err: %#v. ", queryInfo, err))
 	if err != nil {
 		fmt.Printf("Failed to create query with  error: %v \n", err)
