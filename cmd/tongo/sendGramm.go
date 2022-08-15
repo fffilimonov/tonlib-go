@@ -101,6 +101,10 @@ func sendGramm(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
+	// get fee
+	fees, err := tonClient.QueryEstimateFees(queryInfo.Id, false)
+	fmt.Println(fmt.Sprintf("fees: %#v. err: %#v. ", fees, err))
+
 	// send query
 	ok, err := tonClient.QuerySend(queryInfo.Id)
 	fmt.Println(fmt.Sprintf("send query. ok: %#v. err: %#v. ", ok, err))
