@@ -110,6 +110,13 @@ func sendGramm(cmd *cobra.Command, args []string) {
     totalFee := fees.SourceFees.FwdFee + fees.SourceFees.GasFee + fees.SourceFees.InFwdFee + fees.SourceFees.StorageFee + fees.DestinationFees[0].FwdFee + fees.DestinationFees[0].GasFee + fees.DestinationFees[0].InFwdFee + fees.DestinationFees[0].StorageFee
 	fmt.Println(fmt.Sprintf("totalFee: %v", totalFee))
 
+    totalAmount := amount - totalFee
+
+    if totalAmount < 1 {
+		fmt.Printf("Low balance: %v\n", totalAmount)
+		os.Exit(1)
+    }
+
 	// create query to send grams
 	msgAction := tonlib.NewActionMsg(
 		true,
