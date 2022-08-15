@@ -20,7 +20,6 @@ var sendGrammCmd = &cobra.Command{
 - secret
 - password
 - addressDestination
-- amount
 `,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 6 {
@@ -41,11 +40,6 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	secret := args[2]
 	password := args[3]
 	destinationAddr := args[4]
-	//// parse amount
-	amount, err := strconv.ParseInt(args[5], 10, 64)
-	if err != nil {
-		log.Fatalf("failed to parse amount argument: %s as int. err: %s. ", args[5], err)
-	}
 
 	err = initClient(confPath)
 	if err != nil {
@@ -81,7 +75,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	msgActionFee := tonlib.NewActionMsg(
 		true,
 		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
-			tonlib.JSONInt64(amount),
+			tonlib.JSONInt64(state.Balance),
 			tonlib.NewMsgDataText(""),
 			tonlib.NewAccountAddress(destinationAddr),
 			pKey.PublicKey,
@@ -110,7 +104,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
     totalFee := fees.SourceFees.FwdFee + fees.SourceFees.GasFee + fees.SourceFees.InFwdFee + fees.SourceFees.StorageFee + fees.DestinationFees[0].FwdFee + fees.DestinationFees[0].GasFee + fees.DestinationFees[0].InFwdFee + fees.DestinationFees[0].StorageFee
 	fmt.Println(fmt.Sprintf("totalFee: %v", totalFee))
 
-    totalAmount := amount - totalFee
+    totalAmount := state.Balance - totalFee
 
     if totalAmount < 1 {
 		fmt.Printf("Low balance: %v\n", totalAmount)
@@ -121,7 +115,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	msgAction := tonlib.NewActionMsg(
 		true,
 		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
-			tonlib.JSONInt64(amount),
+			tonlib.JSONInt64(totalAmount),
 			tonlib.NewMsgDataText(""),
 			tonlib.NewAccountAddress(destinationAddr),
 			pKey.PublicKey,
