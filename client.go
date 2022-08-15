@@ -2,6 +2,8 @@ package tonlib
 
 //#cgo linux CFLAGS: -I./lib/linux
 //#cgo linux LDFLAGS: -L./lib/linux -ltonlibjson -ltonlibjson_private -ltonlibjson_static -ltonlib
+//#cgo darwin CFLAGS: -I./lib/darwin
+//#cgo darwin LDFLAGS: -L./lib/darwin -ltonlibjson -ltonlibjson_private -ltonlibjson_static -ltonlib
 //#include <stdlib.h>
 //#include <./lib/tonlib_client_json.h>
 import "C"
