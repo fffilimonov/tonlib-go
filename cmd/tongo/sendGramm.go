@@ -77,7 +77,6 @@ func sendGramm(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("Got a result: address: %v; balance :%v; last transaction id: %v. Errors: %v. \n", senderAddr.AccountAddress, state.Balance, state.LastTransactionId, err)
 
-
 	// create query to send grams
 	msgActionFee := tonlib.NewActionMsg(
 		true,
@@ -107,6 +106,9 @@ func sendGramm(cmd *cobra.Command, args []string) {
 	// get fee
 	fees, err := tonClient.QueryEstimateFees(queryInfoFee.Id, false)
 	fmt.Println(fmt.Sprintf("fees: %#v. err: %#v. ", fees, err))
+
+    totalFee := fees.SourceFees.FwdFee + fees.SourceFees.GasFee + fees.SourceFees.InFwdFee + fees.SourceFees.StorageFee + fees.DestinationFees[0].FwdFee + fees.DestinationFees[0].GasFee + fees.DestinationFees[0].InFwdFee + fees.DestinationFees[0].StorageFee
+	fmt.Println(fmt.Sprintf("totalFee: %v", totalFee))
 
 	// create query to send grams
 	msgAction := tonlib.NewActionMsg(
