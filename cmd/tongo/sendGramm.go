@@ -77,7 +77,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 		true,
 		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
 			tonlib.JSONInt64(balance-tFee),
-			tonlib.NewMsgDataRaw(base64.StdEncoding.EncodeToString([]byte("")), ""),
+			tonlib.NewMsgDataText(base64.StdEncoding.EncodeToString([]byte("3a77a706-caef-4bf0-a2eb-f9f9089015a9"))),
 			tonlib.NewAccountAddress(destinationAddr),
 			pKey.PublicKey,
 			-1,
@@ -117,7 +117,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 		true,
 		[]tonlib.MsgMessage{*tonlib.NewMsgMessage(
 			tonlib.JSONInt64(totalAmount),
-			tonlib.NewMsgDataRaw(base64.StdEncoding.EncodeToString([]byte("")), ""),
+			tonlib.NewMsgDataText(base64.StdEncoding.EncodeToString([]byte("3a77a706-caef-4bf0-a2eb-f9f9089015a9"))),
 			tonlib.NewAccountAddress(destinationAddr),
 			pKey.PublicKey,
 			-1,
