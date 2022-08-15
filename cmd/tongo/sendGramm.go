@@ -69,7 +69,7 @@ func sendGramm(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("Got a result: address: %v; balance :%v; last transaction id: %v. Errors: %v. \n", senderAddr.AccountAddress, state.Balance, state.LastTransactionId, err)
 
-    balance := Int64(state.Balance)
+    balance := int64(state.Balance)
 
 	// create query to send grams
 	msgActionFee := tonlib.NewActionMsg(
